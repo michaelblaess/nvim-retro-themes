@@ -1,0 +1,66 @@
+# nvim-retro-themes
+
+<p align="center">
+  <img src="docs/flags/gb.svg" height="13" alt=""> <b>English</b> ·
+  <img src="docs/flags/de.svg" height="13" alt=""> <a href="README.de.md">Deutsch</a>
+</p>
+
+---
+
+35 dark colorschemes for Neovim, built from the retro palettes of
+[textual-themes](https://github.com/michaelblaess/textual-themes) and tuned for reading code.
+
+The colours are not copied one to one. A palette made for a TUI has small text fields, an editor
+is one large text surface. Every colour here is therefore checked and lifted until it is readable,
+and syntax colours that would look alike are pulled apart.
+
+## Install
+
+With `vim.pack` on Neovim 0.12:
+
+```lua
+vim.pack.add({ "https://github.com/michaelblaess/nvim-retro-themes" })
+vim.cmd.colorscheme("retro-synthwave")
+```
+
+To try one without installing:
+
+```
+nvim --cmd "set rtp+=/path/to/nvim-retro-themes" file.cs
+:colorscheme retro-boing
+```
+
+## What the schemes cover
+
+Editor surface, floating windows, popup menu, status line, selection, search, folds and diffs.
+Classic syntax groups and the Treesitter captures. Diagnostics. The plugins used in the author's
+setup: render-markdown.nvim, mini.icons, mini.files, mini.pick and mini.clue. Terminal colours 0
+to 15.
+
+## The rules behind the colours
+
+- **Readable first.** Text and syntax reach a contrast of at least 4.5:1 on every surface they
+  can appear on, line numbers and borders at least 3:1. Hue and saturation stay, so a theme keeps
+  its character.
+- **A bright background is darkened.** Some palettes sit too light for a full screen of text.
+  The background is darkened until the body text reaches 8:1, which leaves room for six syntax
+  colours above it.
+- **Syntax colours stay apart.** Where a palette uses one colour twice, the next candidate is
+  taken, then a shift in lightness, then a shift in hue. Two syntax colours are always at least
+  22 apart in CIE76.
+
+Every rule is covered by a test over all 35 themes.
+
+## Generating
+
+```
+uv run python -m nvim_retro_themes            # write colors/
+uv run python -m nvim_retro_themes --report   # contrast table only
+```
+
+The palettes in `src/nvim_retro_themes/data/` are a snapshot taken from textual-themes 0.14.0.
+`tools/snapshot_from_textual.py` refreshes it and overwrites changes made by hand.
+
+## Licence
+
+Apache-2.0.
