@@ -7,7 +7,7 @@
 
 ---
 
-35 dunkle Farbschemata für Neovim, gebaut aus den Retro-Paletten von
+36 dunkle Farbschemata für Neovim, gebaut aus den Retro-Paletten von
 [textual-themes](https://github.com/michaelblaess/textual-themes) und auf das Lesen von Quelltext
 abgestimmt.
 
@@ -50,7 +50,7 @@ Terminal-Farben 0 bis 15.
   der nächste Kandidat, dann eine Verschiebung der Helligkeit, dann eine des Farbtons. Zwei
   Syntaxfarben liegen immer mindestens 22 in CIE76 auseinander.
 
-Jede Regel deckt ein Test über alle 35 Themes ab.
+Jede Regel deckt ein Test über alle 36 Themes ab.
 
 ## Erzeugen
 
@@ -61,6 +61,10 @@ uv run python -m nvim_retro_themes --report   # nur die Kontrasttabelle
 
 Die Paletten in `src/nvim_retro_themes/data/` sind ein Snapshot aus textual-themes 0.14.0.
 `tools/snapshot_from_textual.py` holt ihn neu und überschreibt dabei Handänderungen.
+
+Ein Theme fällt aus der Reihe: `christophorus` hat keine eigenen elf Grundfarben. Seine Rollen aus
+web-themes sind von Hand darauf abgebildet, die Zuordnung steht in seiner Datendatei. Der Snapshot
+schreibt nur die Themes, die er in textual-themes findet, diese Datei bleibt also stehen.
 
 ## Lizenz
 

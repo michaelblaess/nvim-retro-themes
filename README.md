@@ -7,7 +7,7 @@
 
 ---
 
-35 dark colorschemes for Neovim, built from the retro palettes of
+36 dark colorschemes for Neovim, built from the retro palettes of
 [textual-themes](https://github.com/michaelblaess/textual-themes) and tuned for reading code.
 
 The colours are not copied one to one. A palette made for a TUI has small text fields, an editor
@@ -49,7 +49,7 @@ to 15.
   taken, then a shift in lightness, then a shift in hue. Two syntax colours are always at least
   22 apart in CIE76.
 
-Every rule is covered by a test over all 35 themes.
+Every rule is covered by a test over all 36 themes.
 
 ## Generating
 
@@ -60,6 +60,10 @@ uv run python -m nvim_retro_themes --report   # contrast table only
 
 The palettes in `src/nvim_retro_themes/data/` are a snapshot taken from textual-themes 0.14.0.
 `tools/snapshot_from_textual.py` refreshes it and overwrites changes made by hand.
+
+One theme is different: `christophorus` has no eleven base colours of its own. Its roles from
+web-themes were mapped onto them by hand, the mapping is recorded in its data file. The snapshot
+tool only writes the themes it finds in textual-themes, so that file stays untouched.
 
 ## Licence
 
