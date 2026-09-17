@@ -14,6 +14,14 @@ The colours are not copied one to one. A palette made for a TUI has small text f
 is one large text surface. Every colour here is therefore checked and lifted until it is readable,
 and syntax colours that would look alike are pulled apart.
 
+![retro-synthwave](docs/vorschau/retro-synthwave.png)
+
+Synthwave on top, below it Classic Terminal and Clipper. **[See all 41 colorschemes](docs/vorschau.md)**
+
+![retro-classic-terminal](docs/vorschau/retro-classic-terminal.png)
+
+![retro-clipper](docs/vorschau/retro-clipper.png)
+
 ## Install
 
 With `vim.pack` on Neovim 0.12:
@@ -65,6 +73,18 @@ The palettes in `src/nvim_retro_themes/data/` are a snapshot taken from textual-
 One theme is different: `christophorus` has no eleven base colours of its own. Its roles from
 web-themes were mapped onto them by hand, the mapping is recorded in its data file. The snapshot
 tool only writes the themes it finds in textual-themes, so that file stays untouched.
+
+## Liability
+
+These colorschemes are a hobby project and come without any warranty, exactly as the Apache-2.0
+licence describes. They change how the editor looks, nothing else. Use them at your own risk.
+
+## Trade marks and names
+
+The theme names come from [textual-themes](https://github.com/michaelblaess/textual-themes) and
+allude to machines, desktops and films that mean something to me. They name colour palettes, not
+anyone else's products, and there is no connection to their owners. Any trade marks mentioned
+belong to their respective owners.
 
 ## Licence
 

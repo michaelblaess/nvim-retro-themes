@@ -15,6 +15,14 @@ Die Farben sind nicht 1:1 übernommen. Eine Palette für eine TUI hat kleine Tex
 ist eine einzige große Textfläche. Deshalb wird hier jede Farbe geprüft und angehoben, bis sie
 lesbar ist, und Syntaxfarben, die sich zu ähnlich sähen, werden auseinandergezogen.
 
+![retro-synthwave](docs/vorschau/retro-synthwave.png)
+
+Oben Synthwave, darunter Classic Terminal und Clipper. **[Alle 41 Farbschemata ansehen](docs/vorschau.de.md)**
+
+![retro-classic-terminal](docs/vorschau/retro-classic-terminal.png)
+
+![retro-clipper](docs/vorschau/retro-clipper.png)
+
 ## Einbinden
 
 Mit `vim.pack` unter Neovim 0.12:
@@ -27,7 +35,7 @@ vim.cmd.colorscheme("retro-synthwave")
 Zum Ausprobieren ohne Installation:
 
 ```
-nvim --cmd "set rtp+=/pfad/zu/nvim-retro-themes" datei.cs
+nvim --cmd "set rtp+=<pfad>/nvim-retro-themes" datei.cs
 :colorscheme retro-boing
 ```
 
@@ -63,9 +71,22 @@ uv run python -m nvim_retro_themes --report   # nur die Kontrasttabelle
 Die Paletten in `src/nvim_retro_themes/data/` sind ein Snapshot aus textual-themes 0.14.0.
 `tools/snapshot_from_textual.py` holt ihn neu und überschreibt dabei Handänderungen.
 
-Ein Theme fällt aus der Reihe: `christophorus` hat keine eigenen elf Grundfarben. Seine Rollen aus
+Ein Theme ist von Hand gemacht: `christophorus` hat keine eigenen elf Grundfarben. Seine Rollen aus
 web-themes sind von Hand darauf abgebildet, die Zuordnung steht in seiner Datendatei. Der Snapshot
 schreibt nur die Themes, die er in textual-themes findet, diese Datei bleibt also stehen.
+
+## Haftung
+
+Die Farbschemata sind Freizeitarbeit und werden ohne Gewähr bereitgestellt, so wie es die
+Apache-2.0-Lizenz beschreibt. Sie ändern die Darstellung im Editor, sonst nichts. Wer sie
+einsetzt, tut das auf eigenes Risiko.
+
+## Marken und Namen
+
+Die Namen der Themes stammen aus [textual-themes](https://github.com/michaelblaess/textual-themes)
+und sind Anspielungen auf Rechner, Oberflächen und Filme, die mir etwas bedeuten. Sie bezeichnen
+Farbpaletten, nicht die Erzeugnisse anderer, und es besteht keine Verbindung zu deren Inhabern.
+Genannte Marken gehören ihren jeweiligen Inhabern.
 
 ## Lizenz
 
