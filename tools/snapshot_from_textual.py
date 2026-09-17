@@ -1,4 +1,4 @@
-"""Kopiert die Grundfarben der dunklen retro-themes aus textual-themes nach src/nvim_retro_themes/data.
+"""Kopiert die Grundfarben der retro-themes aus textual-themes nach src/nvim_retro_themes/data.
 
 Einmaliger Snapshot statt Abhaengigkeit: Neovim-Themes werden eigens abgestimmt, ein erneuter Lauf
 ueberschreibt Handaenderungen an den JSON-Dateien.
@@ -58,16 +58,15 @@ def main() -> None:
     ZIEL.mkdir(parents=True, exist_ok=True)
     anzahl = 0
     for palette in modul.RETRO_PALETTES:
-        if not palette.dark:
-            continue
         eintrag = {
             "name": palette.name,
+            "dark": palette.dark,
             "source": {"origin": "textual-themes palettes.py", "textual_themes": version},
             "base": {feld: str(getattr(palette, feld)).upper() for feld in FELDER},
         }
         (ZIEL / f"{palette.name}.json").write_text(json.dumps(eintrag, indent=2) + "\n", encoding="utf-8")
         anzahl += 1
-    print(f"{anzahl} dunkle Themes nach {ZIEL} geschrieben (textual-themes {version})")
+    print(f"{anzahl} Themes nach {ZIEL} geschrieben (textual-themes {version})")
 
 
 if __name__ == "__main__":

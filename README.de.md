@@ -7,7 +7,7 @@
 
 ---
 
-36 dunkle Farbschemata für Neovim, gebaut aus den Retro-Paletten von
+41 Farbschemata für Neovim, 36 dunkle und 5 helle, gebaut aus den Retro-Paletten von
 [textual-themes](https://github.com/michaelblaess/textual-themes) und auf das Lesen von Quelltext
 abgestimmt.
 
@@ -43,14 +43,15 @@ Terminal-Farben 0 bis 15.
 - **Lesbarkeit zuerst.** Text und Syntax erreichen auf jeder Fläche, auf der sie vorkommen,
   mindestens 4,5:1, Zeilennummern und Rahmen mindestens 3:1. Farbton und Sättigung bleiben, das
   Theme behält seinen Charakter.
-- **Ein zu heller Hintergrund wird abgedunkelt.** Manche Paletten sind für einen ganzen Bildschirm
-  Text zu hell. Der Hintergrund wird abgedunkelt, bis der Fließtext 8:1 erreicht. Darüber ist dann
-  Platz für sechs Syntaxfarben.
+- **Die Fläche rückt vom Text ab.** Manche Paletten liegen für einen ganzen Bildschirm Text zu
+  nah an ihrer eigenen Schrift. Ein dunkles Theme wird dann dunkler, ein helles heller, bis der
+  Fließtext 8:1 erreicht. Darüber ist Platz für sechs Syntaxfarben. Nach oben ist bei 13:1
+  Schluss, sonst landet die ausweichende Farbe fast bei Schwarz oder fast bei Weiß.
 - **Syntaxfarben bleiben unterscheidbar.** Wo eine Palette eine Farbe doppelt verwendet, greift
   der nächste Kandidat, dann eine Verschiebung der Helligkeit, dann eine des Farbtons. Zwei
   Syntaxfarben liegen immer mindestens 22 in CIE76 auseinander.
 
-Jede Regel deckt ein Test über alle 36 Themes ab.
+Jede Regel deckt ein Test über alle 41 Themes ab.
 
 ## Erzeugen
 

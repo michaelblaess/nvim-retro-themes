@@ -1,5 +1,6 @@
 {
   "name": "christophorus",
+  "dark": true,
   "source": {
     "origin": "web-themes christophorus.json, Rollen von Hand auf die elf Grundfarben abgebildet",
     "web_themes": "0.1.0",

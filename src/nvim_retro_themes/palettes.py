@@ -9,7 +9,7 @@ from importlib import resources
 
 @dataclass(frozen=True, slots=True)
 class Base:
-    """Die elf Grundfarben eines Themes, Feldnamen wie in textual-themes."""
+    """Die elf Grundfarben eines Themes plus das Hell/Dunkel-Kennzeichen, Feldnamen wie in textual-themes."""
 
     name: str
     primary: str
@@ -23,6 +23,7 @@ class Base:
     warning: str
     error: str
     success: str
+    dark: bool
 
 
 def load_all() -> list[Base]:
@@ -32,7 +33,7 @@ def load_all() -> list[Base]:
         if not entry.name.endswith(".json"):
             continue
         raw = json.loads(entry.read_text(encoding="utf-8"))
-        themes.append(Base(name=raw["name"], **raw["base"]))
+        themes.append(Base(name=raw["name"], dark=raw["dark"], **raw["base"]))
     return sorted(themes, key=lambda theme: theme.name)
 
 

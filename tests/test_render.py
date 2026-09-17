@@ -33,6 +33,12 @@ def test_all_colors_are_hex() -> None:
                     assert isinstance(value, str) and HEX.match(value), f"{base.name}/{group}/{key}: {value!r}"
 
 
+def test_background_line_matches_theme() -> None:
+    for base in load_all():
+        erwartet = "dark" if base.dark else "light"
+        assert f'vim.o.background = "{erwartet}"' in render(derive(base)), base.name
+
+
 def test_render_is_deterministic() -> None:
     scheme = derive(load("synthwave"))
     assert render(scheme) == render(scheme)

@@ -33,8 +33,11 @@ DIM_TARGET = 3.0
 # Ab diesem Farbabstand (CIE76) gelten zwei Syntaxfarben als unterscheidbar
 DISTINCT = 22.0
 # Mindestkontrast zwischen Text und Editorflaeche. Hoeher als AA, weil darauf noch sechs
-# Syntaxfarben Platz finden muessen - auf einer hellen Flaeche werden die sonst alle weiss.
+# Syntaxfarben Platz finden muessen - sonst laufen sie alle gegen Weiss bzw. gegen Schwarz.
 BG_TARGET = 8.0
+# Obergrenze fuer Syntaxfarben. Ohne sie landet eine ausweichende Farbe im hellen Theme fast bei
+# Schwarz und im dunklen fast bei Weiss - lesbar, aber ohne Farbe.
+MAX_CONTRAST = 13.0
 
 
 @dataclass(frozen=True, slots=True)
@@ -43,6 +46,7 @@ class Scheme:
 
     name: str
     base: Base
+    dark: bool
     # Flaechen
     bg: str
     bg_cursorline: str
@@ -113,11 +117,15 @@ def _pick(candidates: list[str], taken: list[str], surfaces: tuple[str, ...]) ->
     for degrees in range(10, 190, 10):
         for direction in (1, -1):
             variants.append(with_hue_shift(best, direction * degrees))
+    ausweichend: list[str] = []
     for variant in variants:
         candidate = _readable(variant, surfaces, TEXT_TARGET)
-        if _distance(candidate, taken) >= DISTINCT:
+        if _distance(candidate, taken) < DISTINCT:
+            continue
+        if contrast(candidate, surfaces[0]) <= MAX_CONTRAST:
             return candidate
-    return best
+        ausweichend.append(candidate)
+    return ausweichend[0] if ausweichend else best
 
 
 def _on(color: str, options: tuple[str, ...]) -> str:
@@ -126,13 +134,14 @@ def _on(color: str, options: tuple[str, ...]) -> str:
 
 
 def derive(base: Base) -> Scheme:
-    """Baut aus den Grundfarben eines dunklen Themes das vollstaendige Farbschema."""
+    """Baut aus den Grundfarben eines Themes das vollstaendige Farbschema, hell wie dunkel."""
     fg = base.foreground
     # Die Paletten kommen aus Oberflaechen mit kleinen Textfeldern. Ein Editor ist eine einzige
-    # grosse Textflaeche, deshalb wird ein zu heller Hintergrund abgedunkelt - Farbton bleibt.
+    # grosse Textflaeche, deshalb wird die Flaeche vom Text weggezogen, bis genug Raum da ist:
+    # ein dunkles Theme wird dunkler, ein helles heller. Der Farbton bleibt.
     bg = base.background
     if contrast(fg, bg) < BG_TARGET:
-        bg = fill_for_text(bg, fg, BG_TARGET) or mix(bg, "#000000", 0.6)
+        bg = fill_for_text(bg, fg, BG_TARGET) or mix(bg, "#000000" if base.dark else "#FFFFFF", 0.6)
 
     # Flaechen entstehen aus dem Hintergrund, damit sie den Farbton des Themes behalten.
     # surface und panel taugen dafuer nicht: sie sind in einigen Themes greller als der Text.
@@ -186,8 +195,11 @@ def derive(base: Base) -> Scheme:
     statusline_bg = base.primary
     statusline_fg = _on(statusline_bg, (bg, fg, "#000000", "#FFFFFF"))
 
+    # Die zweite Haelfte der Terminalfarben ist die "helle" Variante. Auf einer hellen Flaeche
+    # waere sie nicht mehr zu sehen, dort wird stattdessen nachgedunkelt.
+    betont = "#FFFFFF" if base.dark else "#000000"
     terminal = [
-        mix(bg, fg, 0.25),  # 0 schwarz
+        mix(bg, fg, 0.25 if base.dark else 0.9),  # 0 schwarz
         error,
         success,
         warning,
@@ -195,19 +207,20 @@ def derive(base: Base) -> Scheme:
         special,
         keyword,
         fg_dim,
-        mix(bg, fg, 0.45),  # 8 helles schwarz
-        mix(error, "#FFFFFF", 0.2),
-        mix(success, "#FFFFFF", 0.2),
-        mix(warning, "#FFFFFF", 0.2),
-        mix(info, "#FFFFFF", 0.2),
-        mix(special, "#FFFFFF", 0.2),
-        mix(keyword, "#FFFFFF", 0.2),
+        mix(bg, fg, 0.45 if base.dark else 0.6),  # 8 helles schwarz
+        mix(error, betont, 0.2),
+        mix(success, betont, 0.2),
+        mix(warning, betont, 0.2),
+        mix(info, betont, 0.2),
+        mix(special, betont, 0.2),
+        mix(keyword, betont, 0.2),
         fg,
     ]
 
     return Scheme(
         name=base.name,
         base=base,
+        dark=base.dark,
         bg=bg,
         bg_cursorline=bg_cursorline,
         bg_float=bg_float,

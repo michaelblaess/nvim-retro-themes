@@ -6,7 +6,7 @@ from dataclasses import replace
 
 import pytest
 
-from nvim_retro_themes.color import contrast, delta_e, mix
+from nvim_retro_themes.color import contrast, delta_e, luminance, mix
 from nvim_retro_themes.derive import DIM_TARGET, DISTINCT, TEXT_TARGET, Scheme, derive
 from nvim_retro_themes.palettes import load_all
 
@@ -62,6 +62,13 @@ def test_syntax_colors_distinguishable(scheme: Scheme) -> None:
 @pytest.mark.parametrize("scheme", SCHEMES, ids=IDS)
 def test_statusline_readable(scheme: Scheme) -> None:
     assert contrast(scheme.statusline_fg, scheme.statusline_bg) >= TEXT_TARGET
+
+
+@pytest.mark.parametrize("scheme", SCHEMES, ids=IDS)
+def test_light_and_dark_are_not_mixed_up(scheme: Scheme) -> None:
+    # Das Kennzeichen steuert vim.o.background, es muss zur tatsaechlichen Flaeche passen
+    heller_hintergrund = luminance(scheme.bg) > luminance(scheme.fg)
+    assert heller_hintergrund != scheme.dark, scheme.name
 
 
 def test_check_can_fail() -> None:

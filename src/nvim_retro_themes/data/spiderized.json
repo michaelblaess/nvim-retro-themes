@@ -1,5 +1,6 @@
 {
   "name": "spiderized",
+  "dark": true,
   "source": {
     "origin": "textual-themes palettes.py",
     "textual_themes": "0.14.0"

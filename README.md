@@ -7,7 +7,7 @@
 
 ---
 
-36 dark colorschemes for Neovim, built from the retro palettes of
+41 colorschemes for Neovim, 36 dark and 5 light, built from the retro palettes of
 [textual-themes](https://github.com/michaelblaess/textual-themes) and tuned for reading code.
 
 The colours are not copied one to one. A palette made for a TUI has small text fields, an editor
@@ -42,14 +42,15 @@ to 15.
 - **Readable first.** Text and syntax reach a contrast of at least 4.5:1 on every surface they
   can appear on, line numbers and borders at least 3:1. Hue and saturation stay, so a theme keeps
   its character.
-- **A bright background is darkened.** Some palettes sit too light for a full screen of text.
-  The background is darkened until the body text reaches 8:1, which leaves room for six syntax
-  colours above it.
+- **The surface moves away from the text.** Some palettes sit too close to their own text for
+  a full screen of it. A dark theme then gets darker, a light one lighter, until the body text
+  reaches 8:1. That leaves room for six syntax colours. No colour is pushed past 13:1 either,
+  otherwise the one that has to dodge ends up near black or near white.
 - **Syntax colours stay apart.** Where a palette uses one colour twice, the next candidate is
   taken, then a shift in lightness, then a shift in hue. Two syntax colours are always at least
   22 apart in CIE76.
 
-Every rule is covered by a test over all 36 themes.
+Every rule is covered by a test over all 41 themes.
 
 ## Generating
 

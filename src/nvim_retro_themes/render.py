@@ -15,7 +15,7 @@ if vim.fn.exists("syntax_on") == 1 then
   vim.cmd("syntax reset")
 end
 
-vim.o.background = "dark"
+vim.o.background = "{hintergrund}"
 vim.g.colors_name = "{theme}"
 
 local hl = vim.api.nvim_set_hl
@@ -34,7 +34,7 @@ def _lua_spec(spec: Spec) -> str:
 def render(scheme: Scheme) -> str:
     """Erzeugt den Lua-Quelltext eines Farbschemas."""
     theme = f"retro-{scheme.name}"
-    lines = [KOPF.format(theme=theme, name=scheme.name)]
+    lines = [KOPF.format(theme=theme, name=scheme.name, hintergrund="dark" if scheme.dark else "light")]
     for group, spec in build(scheme).items():
         lines.append(f'hl(0, "{group}", {_lua_spec(spec)})')
     lines.append("")
