@@ -7,6 +7,10 @@
 
 ---
 
+<p align="center">
+  <img src="docs/banner.jpg" alt="nvim-retro-themes - five terminal editor windows, each in a different retro colorscheme" width="100%">
+</p>
+
 41 colorschemes for Neovim, 36 dark and 5 light, built from the retro palettes of
 [textual-themes](https://github.com/michaelblaess/textual-themes) and tuned for reading code.
 

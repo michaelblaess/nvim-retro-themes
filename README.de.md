@@ -7,6 +7,10 @@
 
 ---
 
+<p align="center">
+  <img src="docs/banner.jpg" alt="nvim-retro-themes - fünf Editorfenster im Terminal, jedes in einem anderen Retro-Farbschema" width="100%">
+</p>
+
 41 Farbschemata für Neovim, 36 dunkle und 5 helle, gebaut aus den Retro-Paletten von
 [textual-themes](https://github.com/michaelblaess/textual-themes) und auf das Lesen von Quelltext
 abgestimmt.
