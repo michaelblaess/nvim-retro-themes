@@ -58,9 +58,10 @@ to 15.
   a full screen of it. A dark theme then gets darker, a light one lighter, until the body text
   reaches 8:1. That leaves room for six syntax colours. No colour is pushed past 13:1 either,
   otherwise the one that has to dodge ends up near black or near white.
-- **Syntax colours stay apart.** Where a palette uses one colour twice, the next candidate is
-  taken, then a shift in lightness, then a shift in hue. Two syntax colours are always at least
-  22 apart in CIE76.
+- **Syntax colours stay apart**, from each other and from the body text. Where a palette uses
+  one colour twice, the next candidate is taken, then a shift in lightness, then another colour
+  of the same palette, then a shift in hue. Two syntax colours, and a syntax colour and the text,
+  are always at least 22 apart in CIE76.
 
 Every rule is covered by a test over all 41 themes.
 

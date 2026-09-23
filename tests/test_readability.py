@@ -77,3 +77,10 @@ def test_check_can_fail() -> None:
     verdorben = replace(scheme, comment=mix(scheme.bg, scheme.fg, 0.05), keyword=scheme.function)
     assert contrast(verdorben.comment, verdorben.bg) < TEXT_TARGET
     assert delta_e(verdorben.keyword, verdorben.function) < DISTINCT
+
+
+@pytest.mark.parametrize("scheme", SCHEMES, ids=IDS)
+def test_syntax_colors_differ_from_text(scheme: Scheme) -> None:
+    # Eine Syntaxfarbe, die aussieht wie Fliesstext, hebt nichts hervor
+    for role, color in _syntax(scheme).items():
+        assert delta_e(color, scheme.fg) >= DISTINCT, f"{scheme.name}: {role} wie Text"

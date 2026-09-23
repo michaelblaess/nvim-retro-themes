@@ -96,11 +96,20 @@ def _distance(color: str, taken: list[str]) -> float:
     return min((delta_e(color, other) for other in taken), default=100.0)
 
 
-def _pick(candidates: list[str], taken: list[str], surfaces: tuple[str, ...]) -> str:
+def _pick(
+    candidates: list[str], taken: list[str], surfaces: tuple[str, ...], reserve: tuple[str, ...] = ()
+) -> str:
     """Waehlt die erste lesbare Kandidatenfarbe, die zu den vergebenen genug Abstand hat.
 
-    Reicht keine, wird die beste in der Helligkeit verschoben. Das haelt den Farbton und ist der
-    einzige Weg, der bei einfarbigen Themes wie einem Phosphor-Terminal ueberhaupt bleibt.
+    Reicht keine, wird in dieser Reihenfolge ausgewichen:
+
+    1. Die beste Kandidatin in der Helligkeit verschieben. Das haelt den Farbton und ist der
+       einzige Weg, der bei einfarbigen Themes wie einem Phosphor-Terminal ueberhaupt bleibt.
+    2. Die uebrigen Farben der Palette. Ein Grau laesst sich im Farbton nicht drehen, und die
+       Palette passt besser zum Theme als ein gedrehter Farbton.
+    3. Den Farbton der besten Kandidatin drehen.
+
+    Jede Ausweichfarbe bleibt unter MAX_CONTRAST, sonst landet sie fast bei Schwarz oder Weiss.
     """
     readable = [_readable(color, surfaces, TEXT_TARGET) for color in candidates]
     for color in readable:
@@ -113,7 +122,7 @@ def _pick(candidates: list[str], taken: list[str], surfaces: tuple[str, ...]) ->
     for step in range(1, 26):
         for direction in (1, -1):
             variants.append(with_lightness(best, base_lightness + direction * step * 0.02))
-    # Erst die Helligkeit, dann der Farbton: Helligkeit haelt ein einfarbiges Theme einfarbig
+    variants.extend(reserve)
     for degrees in range(10, 190, 10):
         for direction in (1, -1):
             variants.append(with_hue_shift(best, direction * degrees))
@@ -162,25 +171,36 @@ def derive(base: Base) -> Scheme:
     fg_faint = _readable(mix(fg, bg, 0.55), surfaces, DIM_TARGET)
     comment = _readable(mix(fg, base.secondary, 0.5), surfaces, TEXT_TARGET)
 
-    # Reihenfolge ist Absicht: Schluesselwoerter zuerst, sie tragen das Theme
-    keyword = _pick([base.accent, base.primary, base.boost], [], surfaces)
-    taken = [keyword]
-    function = _pick([base.primary, base.boost, base.secondary, mix(base.accent, base.success, 0.5)], taken, surfaces)
+    # Uebrige Farben der Palette, falls keine Kandidatin Abstand haelt
+    reserve = (base.boost, base.warning, base.error, base.success, base.primary, base.accent, base.secondary)
+
+    # Reihenfolge ist Absicht: Schluesselwoerter zuerst, sie tragen das Theme. Die Textfarbe
+    # gilt von Anfang an als vergeben - eine Syntaxfarbe, die aussieht wie Fliesstext, hebt
+    # nichts hervor (classic-terminal hatte Funktionen in exakt der Textfarbe).
+    keyword = _pick([base.accent, base.primary, base.boost], [fg], surfaces, reserve)
+    taken = [fg, keyword]
+    function = _pick(
+        [base.primary, base.boost, base.secondary, mix(base.accent, base.success, 0.5)], taken, surfaces, reserve
+    )
     taken.append(function)
-    string = _pick([base.success, mix(base.success, base.accent, 0.35), base.secondary], taken, surfaces)
+    string = _pick(
+        [base.success, mix(base.success, base.accent, 0.35), base.secondary], taken, surfaces, reserve
+    )
     taken.append(string)
-    number = _pick([base.warning, mix(base.warning, base.error, 0.35), base.boost], taken, surfaces)
+    number = _pick([base.warning, mix(base.warning, base.error, 0.35), base.boost], taken, surfaces, reserve)
     taken.append(number)
     type_ = _pick(
         [base.secondary, base.boost, mix(base.primary, base.success, 0.5), mix(base.accent, fg, 0.45)],
         taken,
         surfaces,
+        reserve,
     )
     taken.append(type_)
     special = _pick(
         [base.boost, mix(base.error, base.warning, 0.5), mix(base.primary, base.accent, 0.5), base.error],
         taken,
         surfaces,
+        reserve,
     )
 
     operator = _readable(mix(fg, bg, 0.2), surfaces, TEXT_TARGET)

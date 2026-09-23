@@ -59,9 +59,11 @@ Terminal-Farben 0 bis 15.
   nah an ihrer eigenen Schrift. Ein dunkles Theme wird dann dunkler, ein helles heller, bis der
   Fließtext 8:1 erreicht. Darüber ist Platz für sechs Syntaxfarben. Nach oben ist bei 13:1
   Schluss, sonst landet die ausweichende Farbe fast bei Schwarz oder fast bei Weiß.
-- **Syntaxfarben bleiben unterscheidbar.** Wo eine Palette eine Farbe doppelt verwendet, greift
-  der nächste Kandidat, dann eine Verschiebung der Helligkeit, dann eine des Farbtons. Zwei
-  Syntaxfarben liegen immer mindestens 22 in CIE76 auseinander.
+- **Syntaxfarben bleiben unterscheidbar**, untereinander und zum Fließtext. Wo eine Palette eine
+  Farbe doppelt verwendet, greift der nächste Kandidat, dann eine Verschiebung der Helligkeit,
+  dann eine andere Farbe derselben Palette und erst zuletzt eine Drehung des Farbtons. Zwei
+  Syntaxfarben, und eine Syntaxfarbe und der Text, liegen immer mindestens 22 in CIE76
+  auseinander.
 
 Jede Regel deckt ein Test über alle 41 Themes ab.
 
